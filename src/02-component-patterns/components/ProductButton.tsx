@@ -4,10 +4,11 @@ import styles from '../styles/styles.module.css'
 
 interface Props{
     className?: string;
-    style?: CSSProperties
+    style?: CSSProperties;
+    count?: number
 }
 
-export const ProductButtons = ({className,style}: Props) => {
+export const ProductButtons = ({className,style,count}: Props) => {
     const {counter,increaseBy} = useContext(ProductContext);
     return (
 <div className={`${styles.buttonsContainer} ${className}`} style={style}>
