@@ -1,37 +1,53 @@
-import { useState,useEffect} from 'react';
-import { Product, onChangeArgs } from '../interfaces/interfaces';
+import { useState, useEffect, useRef } from 'react';
+import { Product, onChangeArgs, InitialValues } from '../interfaces/interfaces';
 
 
 interface useProductArgs {
     product: Product;
     onChange?: (args: onChangeArgs) => void;
     value?: number;
+    initialValues?: InitialValues
 }
 
-export const useProduct = ({onChange,product,value = 0}: useProductArgs) => {
+export const useProduct = ({onChange,product,value = 0,initialValues}: useProductArgs) => {
 
-    const [counter, setCounter] = useState(value)
+    const [counter, setCounter] = useState<number>(initialValues?.count || value)
 
-    // const isControlled = useRef(!!onChange)
-    
+    const isMounted = useRef(false);
+    const maxCount = initialValues?.maxCount
     const increaseBy = (value:number) => {
-        // if(isControlled.current){
-        //     // no queremos cambiar el estado si isControlled es verdarero queremos mantenerlo.
-        //     return onChange!({count:value,product})
-        // }
-        const newValue = Math.max(counter + value, 0)
+
+   
+        let newValue = Math.max(counter + value, 0)
+        //    Si onChange tiene un valor disparara la funcion 
+        if(initialValues?.maxCount){
+            newValue = Math.min(newValue, initialValues.maxCount)
+        }
         setCounter(newValue)
-    //    Si onChange tiene un valor disparara la funcion 
         onChange && onChange({count:newValue,product});
     }
 
+    const reset = () => {
+        setCounter(initialValues?.count || value )
+    }
+
     useEffect(() => {
+        if(!isMounted.current) return;
+
         setCounter(value)
     }, [value])
     
-
+    useEffect(() => {
+        isMounted.current = true;
+    }, [])
+    
     return {
         counter,
+        isMaxCountReached: !! initialValues?.count && initialValues?.maxCount === counter,
+        maxCount: initialValues?.maxCount,        
+        
+        // methods
         increaseBy,
+        reset,
     }
 }
