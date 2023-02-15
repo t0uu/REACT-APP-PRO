@@ -1,4 +1,4 @@
-import { useFormik,Formik,Field,Form,ErrorMessage, FormikHelpers, FormikValues} from 'formik'
+import { Formik,Form} from 'formik'
 import * as Yup from 'yup'
 import '../styles/styles.css'
 import { MyCheckbox,MySelect,MyTextInput } from '../components/';
@@ -8,10 +8,6 @@ interface FormValues {
     email: string; 
 }
 export const FormikAbstraction = () => {
-
-
-
-  
     return (
   <div>
     <h1>Formik Abstraction Tutorial</h1>

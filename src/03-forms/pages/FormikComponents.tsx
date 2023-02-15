@@ -1,4 +1,4 @@
-import { useFormik,Formik,Field,Form,ErrorMessage, FormikHelpers, FormikValues} from 'formik'
+import { Formik,Field,Form,ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import '../styles/styles.css'
 interface FormValues {
@@ -7,10 +7,6 @@ interface FormValues {
     email: string; 
 }
 export const FormikComponents = () => {
-
-
-
-  
     return (
   <div>
     <h1>Formik Components Tutorial</h1>
